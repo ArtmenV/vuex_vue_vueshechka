@@ -1,10 +1,8 @@
 <template>
-  <div id="app">
-    <div class="post" v-for="post of posts" :key="post.id">
-      <h2>{{post.title}}</h2>
-      <p>{{post.body}}</p>
-    </div>
-    <router-view />
+  <div>
+    <button @click="increment += 1">+1</button>
+    <button @click="increment -= 1">-1</button>
+    <p>Кнопка выше была нажата {{ increment }} раз</p>
   </div>
 </template>
 
@@ -14,12 +12,17 @@ export default {
   name: "app",
   data() {
     return {
-      posts: []
+      increment: 0
     };
+  },
+  computed: {
+    allPosts() {
+      return this.$store.getters.allPosts;
+    }
   },
   async mounted() {
     const res = await fetch(
-      "https://jsonplaceholder.typicode.com/posts?_limit=10"
+      "https://jsonplaceholder.typicode.com/posts?_limit=3"
     );
     const posts = await res.json();
     this.posts = posts;
